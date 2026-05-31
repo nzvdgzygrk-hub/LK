@@ -118,6 +118,7 @@
       { name: "Breite Burschen Barmen", points: 8 },
       { name: "Cronenberger SC", points: 10 },
       { name: "SC Velbert", points: 10 },
+      { name: "Sportfreunde Dönberg", points: 7 },
       { name: "SSVg Velbert 02", points: 10 },
       { name: "SV Bayer Wuppertal", points: 11 },
       { name: "SV Heckinghausen", points: 7 },
@@ -128,7 +129,7 @@
       { name: "Wuppertaler SV", points: 11 }
     ].sort((a, b) => a.name.localeCompare(b.name, "de"));
 
-    const STORAGE_KEY = "lk_teams_points_v2";
+    const STORAGE_KEY = "lk_teams_points_v3";
     let teams = loadTeams();
 
     function loadTeams() {
