@@ -117,6 +117,7 @@
     const defaultTeams = [
       { name: "Breite Burschen Barmen", points: 8 },
       { name: "Cronenberger SC", points: 10 },
+      { name: "SC Sonnborn", points: 10 },
       { name: "SC Velbert", points: 10 },
       { name: "Sportfreunde Dönberg", points: 7 },
       { name: "SSVg Velbert 02", points: 10 },
@@ -124,12 +125,11 @@
       { name: "SV Heckinghausen", points: 7 },
       { name: "TSV Einigkeit Dornap-Düssel", points: 7 },
       { name: "TuS Grün-Weiß 89/02", points: 10 },
-      { name: "TVD Velbert", points: 8 },
       { name: "Union Velbert", points: 9 },
       { name: "Wuppertaler SV", points: 11 }
     ].sort((a, b) => a.name.localeCompare(b.name, "de"));
 
-    const STORAGE_KEY = "lk_teams_points_v3";
+    const STORAGE_KEY = "lk_teams_points_v4";
     let teams = loadTeams();
 
     function loadTeams() {
