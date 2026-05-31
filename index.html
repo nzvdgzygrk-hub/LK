@@ -1,204 +1,74 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leistungsklasse Punkte</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leistungsklasse Manager</title>
   <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #111827, #1f2937, #0f172a);
-      color: #f9fafb;
-      min-height: 100vh;
-      padding: 16px;
-    }
-    .app { max-width: 520px; margin: 0 auto; }
-    header { padding: 18px 4px 14px; text-align: center; }
-    h1 { margin: 0; font-size: 28px; line-height: 1.15; }
-    .subtitle { margin-top: 8px; color: #cbd5e1; font-size: 14px; }
-    .card {
-      background: rgba(15, 23, 42, 0.88);
-      border: 1px solid rgba(148, 163, 184, 0.22);
-      border-radius: 22px;
-      padding: 14px;
-      box-shadow: 0 18px 45px rgba(0,0,0,0.35);
-      margin-bottom: 14px;
-    }
-    .team-row {
-      display: grid;
-      grid-template-columns: 1fr 86px;
-      gap: 10px;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
-    }
-    .team-row:last-child { border-bottom: 0; }
-    .team-name { font-weight: 650; font-size: 15px; }
-    .team-note { color: #94a3b8; font-size: 12px; margin-top: 2px; }
-    input[type="number"] {
-      width: 100%;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      border-radius: 14px;
-      background: #020617;
-      color: #fff;
-      padding: 12px 10px;
-      font-size: 18px;
-      text-align: center;
-      outline: none;
-    }
-    input[type="number"]:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
-    }
-    .buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-    button {
-      border: 0;
-      border-radius: 16px;
-      padding: 13px 10px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      color: #0f172a;
-      background: #e5e7eb;
-    }
-    button.primary { background: #38bdf8; }
-    button.danger { background: #fca5a5; }
-    .table { width: 100%; border-collapse: collapse; overflow: hidden; }
-    th, td {
-      padding: 10px 8px;
-      text-align: left;
-      font-size: 14px;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
-    }
-    th { color: #cbd5e1; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
-    td.pos { width: 38px; color: #93c5fd; font-weight: 800; }
-    td.points { text-align: right; font-weight: 800; }
-    .hint { color: #94a3b8; font-size: 12px; line-height: 1.45; margin-top: 10px; }
-    @media print {
-      body { background: #fff; color: #000; }
-      .card { box-shadow: none; border: 1px solid #ddd; background: #fff; }
-      .edit-card, .buttons, .hint, .subtitle { display: none; }
-    }
+    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(135deg,#111827,#1f2937,#0f172a);color:#f9fafb;min-height:100vh;padding:16px}.app{max-width:560px;margin:0 auto}header{text-align:center;padding:18px 4px 14px}h1{margin:0;font-size:28px}.subtitle{margin-top:8px;color:#cbd5e1;font-size:14px}.card{background:rgba(15,23,42,.88);border:1px solid rgba(148,163,184,.22);border-radius:22px;padding:14px;box-shadow:0 18px 45px rgba(0,0,0,.35);margin-bottom:14px}.add-grid{display:grid;grid-template-columns:1fr 82px;gap:10px;margin-bottom:10px}.team-row{display:grid;grid-template-columns:1fr 72px 44px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(148,163,184,.16)}.team-row:last-child{border-bottom:0}input{width:100%;border:1px solid rgba(148,163,184,.45);border-radius:14px;background:#020617;color:#fff;padding:12px 10px;font-size:16px;outline:none}input[type=number]{text-align:center}input:focus{border-color:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.18)}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}button{border:0;border-radius:16px;padding:13px 10px;font-size:15px;font-weight:700;cursor:pointer;color:#0f172a;background:#e5e7eb}.primary{background:#38bdf8}.danger{background:#fca5a5}.delete{background:#fb7185;color:white;border-radius:14px;padding:11px 8px;font-size:18px}.table{width:100%;border-collapse:collapse}th,td{padding:10px 8px;text-align:left;font-size:14px;border-bottom:1px solid rgba(148,163,184,.16)}th{color:#cbd5e1;font-size:12px;text-transform:uppercase}td.pos{width:38px;color:#93c5fd;font-weight:800}td.points{text-align:right;font-weight:800}.hint{color:#94a3b8;font-size:12px;line-height:1.45;margin-top:10px}@media print{body{background:#fff;color:#000}.card{box-shadow:none;border:1px solid #ddd;background:#fff}.edit-card,.buttons,.hint,.subtitle,.add-card{display:none}}
   </style>
 </head>
 <body>
   <main class="app">
     <header>
       <h1>Leistungsklasse</h1>
-      <div class="subtitle">Mannschaften & Stärke – lokal gespeichert</div>
+      <div class="subtitle">Mannschaften verwalten und Stärke vergleichen</div>
     </header>
 
-    <section class="card edit-card">
-      <div id="teamInputs"></div>
-      <div class="buttons">
-        <button class="primary" onclick="savePoints()">Speichern</button>
-        <button class="danger" onclick="resetPoints()">Zurücksetzen</button>
+    <section class="card add-card">
+      <div class="add-grid">
+        <input id="newName" type="text" placeholder="Neue Mannschaft">
+        <input id="newPoints" type="number" min="0" max="99" value="7">
       </div>
-      <div class="hint">Du kannst jede Stärke ändern. Danach auf Speichern drücken. Die Werte bleiben auf diesem Gerät gespeichert.</div>
+      <button class="primary" onclick="addTeam()">Mannschaft hinzufügen</button>
+      <div class="hint">Neue Mannschaft eintragen, Stärke wählen und hinzufügen.</div>
+    </section>
+
+    <section class="card edit-card">
+      <div id="teamBox"></div>
+      <div class="buttons">
+        <button class="primary" onclick="saveTeams()">Speichern</button>
+        <button class="danger" onclick="resetTeams()">Standardliste</button>
+      </div>
+      <div class="hint">Namen und Stärke kannst du direkt ändern. Mit × entfernst du eine Mannschaft.</div>
     </section>
 
     <section class="card">
       <table class="table">
-        <thead>
-          <tr>
-            <th>Platz</th>
-            <th>Mannschaft</th>
-            <th style="text-align:right">Stärke</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Platz</th><th>Mannschaft</th><th style="text-align:right">Stärke</th></tr></thead>
         <tbody id="ranking"></tbody>
       </table>
     </section>
   </main>
 
-  <script>
-    const defaultTeams = [
-      { name: "Breite Burschen Barmen", points: 8 },
-      { name: "Cronenberger SC", points: 10 },
-      { name: "SC Sonnborn", points: 10 },
-      { name: "SC Velbert", points: 10 },
-      { name: "Sportfreunde Dönberg", points: 7 },
-      { name: "SSVg Velbert 02", points: 10 },
-      { name: "SV Bayer Wuppertal", points: 11 },
-      { name: "SV Heckinghausen", points: 7 },
-      { name: "TSV Einigkeit Dornap-Düssel", points: 7 },
-      { name: "TuS Grün-Weiß 89/02", points: 10 },
-      { name: "Union Velbert", points: 9 },
-      { name: "Wuppertaler SV", points: 11 }
-    ].sort((a, b) => a.name.localeCompare(b.name, "de"));
-
-    const STORAGE_KEY = "lk_teams_points_v4";
-    let teams = loadTeams();
-
-    function loadTeams() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (!saved) return structuredClone(defaultTeams);
-      try {
-        const parsed = JSON.parse(saved);
-        const merged = defaultTeams.map(defaultTeam => {
-          const existing = parsed.find(team => team.name === defaultTeam.name);
-          return existing ? existing : defaultTeam;
-        });
-        return merged.sort((a, b) => a.name.localeCompare(b.name, "de"));
-      } catch {
-        return structuredClone(defaultTeams);
-      }
-    }
-
-    function renderInputs() {
-      const box = document.getElementById("teamInputs");
-      box.innerHTML = "";
-      teams.forEach((team, index) => {
-        const row = document.createElement("div");
-        row.className = "team-row";
-        row.innerHTML = `
-          <div>
-            <div class="team-name">${team.name}</div>
-            <div class="team-note">Stärke ändern</div>
-          </div>
-          <input type="number" min="0" max="99" step="1" value="${team.points}" data-index="${index}" />
-        `;
-        box.appendChild(row);
-      });
-    }
-
-    function renderRanking() {
-      const tbody = document.getElementById("ranking");
-      const sorted = [...teams].sort((a, b) => {
-        if (b.points !== a.points) return b.points - a.points;
-        return a.name.localeCompare(b.name, "de");
-      });
-      tbody.innerHTML = sorted.map((team, i) => `
-        <tr>
-          <td class="pos">${i + 1}</td>
-          <td>${team.name}</td>
-          <td class="points">${team.points}</td>
-        </tr>
-      `).join("");
-    }
-
-    function savePoints() {
-      document.querySelectorAll("input[type='number']").forEach(input => {
-        const index = Number(input.dataset.index);
-        const value = Number(input.value || 0);
-        teams[index].points = value;
-      });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(teams));
-      renderRanking();
-    }
-
-    function resetPoints() {
-      if (!confirm("Alles auf die Startwerte zurücksetzen?")) return;
-      teams = structuredClone(defaultTeams);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(teams));
-      renderInputs();
-      renderRanking();
-    }
-
-    renderInputs();
-    renderRanking();
-  </script>
+<script>
+const defaults=[
+{name:"Breite Burschen Barmen",points:8},
+{name:"Cronenberger SC",points:10},
+{name:"SC Sonnborn",points:10},
+{name:"SC Velbert",points:10},
+{name:"Sportfreunde Dönberg",points:7},
+{name:"SSVg Velbert 02",points:10},
+{name:"SV Bayer Wuppertal",points:11},
+{name:"SV Heckinghausen",points:7},
+{name:"TSV Einigkeit Dornap-Düssel",points:7},
+{name:"TuS Grün-Weiß 89/02",points:10},
+{name:"Union Velbert",points:9},
+{name:"Wuppertaler SV",points:11}
+];
+const key="lk_manager_v1";
+let teams=loadTeams();
+function sortTeams(list){return list.slice().sort((a,b)=>a.name.localeCompare(b.name,"de"));}
+function loadTeams(){try{const s=localStorage.getItem(key);return s?sortTeams(JSON.parse(s)):sortTeams(defaults);}catch(e){return sortTeams(defaults);}}
+function store(){localStorage.setItem(key,JSON.stringify(teams));}
+function render(){renderEditor();renderRanking();}
+function renderEditor(){teams=sortTeams(teams);const box=document.getElementById("teamBox");box.innerHTML="";teams.forEach((t,i)=>{const row=document.createElement("div");row.className="team-row";const name=document.createElement("input");name.type="text";name.value=t.name;name.dataset.i=i;name.className="team-name-input";const points=document.createElement("input");points.type="number";points.min="0";points.max="99";points.value=t.points;points.dataset.i=i;points.className="team-points-input";const del=document.createElement("button");del.textContent="×";del.className="delete";del.onclick=function(){deleteTeam(i)};row.appendChild(name);row.appendChild(points);row.appendChild(del);box.appendChild(row);});}
+function renderRanking(){const body=document.getElementById("ranking");const sorted=teams.slice().sort((a,b)=>b.points-a.points||a.name.localeCompare(b.name,"de"));body.innerHTML="";sorted.forEach((t,i)=>{const tr=document.createElement("tr");const p=document.createElement("td");p.className="pos";p.textContent=i+1;const n=document.createElement("td");n.textContent=t.name;const s=document.createElement("td");s.className="points";s.textContent=t.points;tr.appendChild(p);tr.appendChild(n);tr.appendChild(s);body.appendChild(tr);});}
+function saveTeams(){const names=document.querySelectorAll(".team-name-input");const pts=document.querySelectorAll(".team-points-input");let list=[];for(let i=0;i<names.length;i++){const name=names[i].value.trim();const points=Number(pts[i].value||0);if(name){list.push({name,points});}}teams=sortTeams(list);store();render();}
+function addTeam(){const n=document.getElementById("newName");const p=document.getElementById("newPoints");const name=n.value.trim();const points=Number(p.value||0);if(!name){alert("Bitte Mannschaftsnamen eingeben.");return;}teams.push({name,points});n.value="";p.value=7;teams=sortTeams(teams);store();render();}
+function deleteTeam(i){if(!confirm(teams[i].name+" löschen?")){return;}teams.splice(i,1);store();render();}
+function resetTeams(){if(!confirm("Auf Standardliste zurücksetzen?")){return;}teams=sortTeams(defaults);store();render();}
+render();
+</script>
 </body>
 </html>
