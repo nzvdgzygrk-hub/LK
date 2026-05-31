@@ -14,24 +14,10 @@
       min-height: 100vh;
       padding: 16px;
     }
-    .app {
-      max-width: 520px;
-      margin: 0 auto;
-    }
-    header {
-      padding: 18px 4px 14px;
-      text-align: center;
-    }
-    h1 {
-      margin: 0;
-      font-size: 28px;
-      line-height: 1.15;
-    }
-    .subtitle {
-      margin-top: 8px;
-      color: #cbd5e1;
-      font-size: 14px;
-    }
+    .app { max-width: 520px; margin: 0 auto; }
+    header { padding: 18px 4px 14px; text-align: center; }
+    h1 { margin: 0; font-size: 28px; line-height: 1.15; }
+    .subtitle { margin-top: 8px; color: #cbd5e1; font-size: 14px; }
     .card {
       background: rgba(15, 23, 42, 0.88);
       border: 1px solid rgba(148, 163, 184, 0.22);
@@ -49,15 +35,8 @@
       border-bottom: 1px solid rgba(148, 163, 184, 0.16);
     }
     .team-row:last-child { border-bottom: 0; }
-    .team-name {
-      font-weight: 650;
-      font-size: 15px;
-    }
-    .team-note {
-      color: #94a3b8;
-      font-size: 12px;
-      margin-top: 2px;
-    }
+    .team-name { font-weight: 650; font-size: 15px; }
+    .team-note { color: #94a3b8; font-size: 12px; margin-top: 2px; }
     input[type="number"] {
       width: 100%;
       border: 1px solid rgba(148, 163, 184, 0.45);
@@ -73,12 +52,7 @@
       border-color: #38bdf8;
       box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
     }
-    .buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 12px;
-    }
+    .buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
     button {
       border: 0;
       border-radius: 16px;
@@ -91,38 +65,17 @@
     }
     button.primary { background: #38bdf8; }
     button.danger { background: #fca5a5; }
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
-    }
+    .table { width: 100%; border-collapse: collapse; overflow: hidden; }
     th, td {
       padding: 10px 8px;
       text-align: left;
       font-size: 14px;
       border-bottom: 1px solid rgba(148, 163, 184, 0.16);
     }
-    th {
-      color: #cbd5e1;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    td.pos {
-      width: 38px;
-      color: #93c5fd;
-      font-weight: 800;
-    }
-    td.points {
-      text-align: right;
-      font-weight: 800;
-    }
-    .hint {
-      color: #94a3b8;
-      font-size: 12px;
-      line-height: 1.45;
-      margin-top: 10px;
-    }
+    th { color: #cbd5e1; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+    td.pos { width: 38px; color: #93c5fd; font-weight: 800; }
+    td.points { text-align: right; font-weight: 800; }
+    .hint { color: #94a3b8; font-size: 12px; line-height: 1.45; margin-top: 10px; }
     @media print {
       body { background: #fff; color: #000; }
       .card { box-shadow: none; border: 1px solid #ddd; background: #fff; }
@@ -134,7 +87,7 @@
   <main class="app">
     <header>
       <h1>Leistungsklasse</h1>
-      <div class="subtitle">Mannschaften & Punkte – lokal gespeichert</div>
+      <div class="subtitle">Mannschaften & Stärke – lokal gespeichert</div>
     </header>
 
     <section class="card edit-card">
@@ -143,7 +96,7 @@
         <button class="primary" onclick="savePoints()">Speichern</button>
         <button class="danger" onclick="resetPoints()">Zurücksetzen</button>
       </div>
-      <div class="hint">Die Mannschaften sind alphabetisch sortiert. Deine Änderungen bleiben auf diesem Gerät gespeichert.</div>
+      <div class="hint">Du kannst jede Stärke ändern. Danach auf Speichern drücken. Die Werte bleiben auf diesem Gerät gespeichert.</div>
     </section>
 
     <section class="card">
@@ -152,7 +105,7 @@
           <tr>
             <th>Platz</th>
             <th>Mannschaft</th>
-            <th style="text-align:right">Punkte</th>
+            <th style="text-align:right">Stärke</th>
           </tr>
         </thead>
         <tbody id="ranking"></tbody>
@@ -166,14 +119,16 @@
       { name: "Cronenberger SC", points: 10 },
       { name: "SC Velbert", points: 10 },
       { name: "SSVg Velbert 02", points: 10 },
+      { name: "SV Bayer Wuppertal", points: 11 },
       { name: "SV Heckinghausen", points: 7 },
       { name: "TSV Einigkeit Dornap-Düssel", points: 7 },
       { name: "TuS Grün-Weiß 89/02", points: 10 },
       { name: "TVD Velbert", points: 8 },
-      { name: "Union Velbert", points: 9 }
+      { name: "Union Velbert", points: 9 },
+      { name: "Wuppertaler SV", points: 11 }
     ].sort((a, b) => a.name.localeCompare(b.name, "de"));
 
-    const STORAGE_KEY = "lk_teams_points_v1";
+    const STORAGE_KEY = "lk_teams_points_v2";
     let teams = loadTeams();
 
     function loadTeams() {
@@ -181,7 +136,11 @@
       if (!saved) return structuredClone(defaultTeams);
       try {
         const parsed = JSON.parse(saved);
-        return parsed.sort((a, b) => a.name.localeCompare(b.name, "de"));
+        const merged = defaultTeams.map(defaultTeam => {
+          const existing = parsed.find(team => team.name === defaultTeam.name);
+          return existing ? existing : defaultTeam;
+        });
+        return merged.sort((a, b) => a.name.localeCompare(b.name, "de"));
       } catch {
         return structuredClone(defaultTeams);
       }
@@ -196,7 +155,7 @@
         row.innerHTML = `
           <div>
             <div class="team-name">${team.name}</div>
-            <div class="team-note">Stärke/Punkte eintragen</div>
+            <div class="team-note">Stärke ändern</div>
           </div>
           <input type="number" min="0" max="99" step="1" value="${team.points}" data-index="${index}" />
         `;
@@ -210,7 +169,6 @@
         if (b.points !== a.points) return b.points - a.points;
         return a.name.localeCompare(b.name, "de");
       });
-
       tbody.innerHTML = sorted.map((team, i) => `
         <tr>
           <td class="pos">${i + 1}</td>
